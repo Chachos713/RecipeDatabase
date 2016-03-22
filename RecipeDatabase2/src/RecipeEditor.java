@@ -6,11 +6,20 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 
+/**
+ * A class that focuses solely on editing and creating new recipes.
+ * 
+ * @author Kyle Diller
+ *
+ */
 public class RecipeEditor {
 	private static Box display;
 	private static JTextField name;
 	private static JTextArea ingredients, steps;
 
+	/**
+	 * Creates the form to display the recipe editor
+	 */
 	private static void create() {
 		display = Box.createVerticalBox();
 
@@ -34,6 +43,15 @@ public class RecipeEditor {
 		display.add(stp);
 	}
 
+	/**
+	 * Adds the recipe to the form to display. Then displays the form for the
+	 * user to edit.
+	 * 
+	 * @param r
+	 *            the recipe to edit. If it is null then the form is creating a
+	 *            new recipe.
+	 * @return the new recipe that has been created or edited.
+	 */
 	public static Recipe edit(Recipe r) {
 		if (display == null)
 			create();
@@ -49,6 +67,11 @@ public class RecipeEditor {
 		return getRecipe();
 	}
 
+	/**
+	 * Gets the recipe from the form components.
+	 * 
+	 * @return the recipe from the form components.
+	 */
 	private static Recipe getRecipe() {
 		String n = name.getText();
 
@@ -64,6 +87,13 @@ public class RecipeEditor {
 		return new Recipe(n, i, s);
 	}
 
+	/**
+	 * Sets the form components fields to a recipe.
+	 * 
+	 * @param r
+	 *            the recipe to set the form components to. If null it just
+	 *            clears the form components.
+	 */
 	private static void setEdits(Recipe r) {
 		if (r == null) {
 			r = new Recipe();

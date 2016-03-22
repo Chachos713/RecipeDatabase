@@ -23,11 +23,23 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+/**
+ * The main entry porint and GUI for the program.
+ * 
+ * @author Kyle Diller
+ *
+ */
 public class RDBGUI implements ListSelectionListener, ActionListener,
 		WindowListener {
 
 	public static final boolean DEBUG = true;
 
+	/**
+	 * Runs the program.
+	 * 
+	 * @param args
+	 *            the arguements passed into the program.
+	 */
 	public static void main(String[] args) {
 		new RDBGUI();
 	}
@@ -42,6 +54,9 @@ public class RDBGUI implements ListSelectionListener, ActionListener,
 	private Database data;
 	private boolean change;
 
+	/**
+	 * Creates and displays the form for the user.
+	 */
 	public RDBGUI() {
 		data = new Database();
 
@@ -88,6 +103,11 @@ public class RDBGUI implements ListSelectionListener, ActionListener,
 		displayRecipes();
 	}
 
+	/**
+	 * Creates the menu bar for the form.
+	 * 
+	 * @return the menu bar that is to be displayed.
+	 */
 	public JMenuBar createMenuBar() {
 		JMenuBar bar = new JMenuBar();
 
@@ -159,6 +179,9 @@ public class RDBGUI implements ListSelectionListener, ActionListener,
 		return bar;
 	}
 
+	/**
+	 * Displays the names of the recipes in the list box.
+	 */
 	public void displayRecipes() {
 		ArrayList<String> name = data.getNames();
 		names.clear();
@@ -168,12 +191,29 @@ public class RDBGUI implements ListSelectionListener, ActionListener,
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * javax.swing.event.ListSelectionListener#valueChanged(javax.swing.event
+	 * .ListSelectionEvent)
+	 * 
+	 * Displays a selected recipe to the form
+	 */
 	@Override
 	public void valueChanged(ListSelectionEvent arg0) {
 		String r = data.displayRecipe(listNames.getSelectedValue());
 		recipe.setText(r);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 * 
+	 * Handles the menu item clicks
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String command = e.getActionCommand();
@@ -194,6 +234,12 @@ public class RDBGUI implements ListSelectionListener, ActionListener,
 		}
 	}
 
+	/**
+	 * Determines what happens when a menu item in the recipe tab is selected.
+	 * 
+	 * @param command
+	 *            the command that determines what to do.
+	 */
 	private void reci(String command) {
 		Recipe r = null;
 
@@ -228,6 +274,12 @@ public class RDBGUI implements ListSelectionListener, ActionListener,
 		change = true;
 	}
 
+	/**
+	 * Determines what happens when a menu item in the database tab is selected.
+	 * 
+	 * @param command
+	 *            the command that determines what to do.
+	 */
 	private void data(String command) {
 		switch (command.charAt(1)) {
 		case 'n':
@@ -272,6 +324,12 @@ public class RDBGUI implements ListSelectionListener, ActionListener,
 		displayRecipes();
 	}
 
+	/**
+	 * Determines what happens when a menu item in the file tab is selected.
+	 * 
+	 * @param command
+	 *            the command stringthat determines the action.
+	 */
 	private void file(String command) {
 		switch (command.charAt(1)) {
 		case 's':
@@ -310,6 +368,15 @@ public class RDBGUI implements ListSelectionListener, ActionListener,
 		}
 	}
 
+	/**
+	 * Checks that the file name ends with the right extension.
+	 * 
+	 * @param f
+	 *            the file to check.
+	 * @param string
+	 *            what the extension should be.
+	 * @return the new file with the correct extension.
+	 */
 	private File checkEnd(File f, String string) {
 		if (!f.getName().endsWith(string)) {
 			return new File(f.toString() + string);
@@ -318,6 +385,9 @@ public class RDBGUI implements ListSelectionListener, ActionListener,
 		return f;
 	}
 
+	/**
+	 * Saves the database into a pdf or text format.
+	 */
 	private void saveAs() {
 		int sChoice = save.showSaveDialog(frame);
 
@@ -337,6 +407,12 @@ public class RDBGUI implements ListSelectionListener, ActionListener,
 		}
 	}
 
+	/**
+	 * Saves a database or recipe based on the command string.
+	 * 
+	 * @param command
+	 *            the string that is passed to determine what and how to save.
+	 */
 	private void save(String command) {
 		switch (command.charAt(2)) {
 		case 'r':
@@ -374,6 +450,9 @@ public class RDBGUI implements ListSelectionListener, ActionListener,
 		}
 	}
 
+	/**
+	 * Searches the database for a specific recipe.
+	 */
 	private void searchDatabase() {
 		String name = RecipeOperations.search(data);
 
@@ -388,6 +467,14 @@ public class RDBGUI implements ListSelectionListener, ActionListener,
 		listNames.setSelectedValue(r.getName(), true);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * java.awt.event.WindowListener#windowClosing(java.awt.event.WindowEvent)
+	 * 
+	 * Asks if the user wants to save changes.
+	 */
 	@Override
 	public void windowClosing(WindowEvent arg0) {
 		if (change) {
